@@ -1,0 +1,538 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "id": "985e6f9b",
+   "metadata": {},
+   "source": [
+    "# PRACTICA 4\n",
+    "\n",
+    "### Resuelve los siguientes ejercicios"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "28748e51",
+   "metadata": {},
+   "source": [
+    "##### 1.- Abre el fichero dna.txt, guarda una lista del contenido del archivo. Devuelve su longitud y su primer caracter"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "id": "88679bbc",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Longitud del ADN: 123\n",
+      "Primer carácter: A\n"
+     ]
+    }
+   ],
+   "source": [
+    "# Abrimos el archivo dna.txt y leemos su contenido\n",
+    "with open(\"dna.txt\", \"r\", encoding=\"utf-8\") as file:\n",
+    "    contenido = file.read().strip()  # Lee todo y elimina espacios o saltos de línea\n",
+    "\n",
+    "# Guardar el contenido en una lista de caracteres\n",
+    "lista_dna = list(contenido)\n",
+    "\n",
+    "# Calcular la longitud y obtener el primer carácter\n",
+    "longitud = len(lista_dna)\n",
+    "primer_caracter = lista_dna[0] if longitud > 0 else None\n",
+    "\n",
+    "# Muestra los resultados\n",
+    "print(\"Longitud del ADN:\", longitud)\n",
+    "print(\"Primer carácter:\", primer_caracter)\n",
+    "\n",
+    "#Lo que hemos hecho ha sido en primer lugar abrir el archivo dna.txt que hemos subido a los archivos de Jupyter, lo leemos y eliminamos los espacios con las funciones with open as, read y strip. \n",
+    "#Para guardar el contenido en una lista de caracteres lo que hacemos es usar 'list' , calculamos la longitud con len y obtenemos el primer caracter. Para obtener la muestra de resultados utilizamos print. "
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "9b87396a",
+   "metadata": {},
+   "source": [
+    "##### 2.- Crea dos archivos. Uno almacena los accession que empiezen por 'a' y el otro el resto"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 9,
+   "id": "73957856",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "accs = ['ab56', 'bh84', 'hv76', 'ay93', 'ap97', 'bd72']"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "id": "8f62bc8f",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Archivo 'accs_a.txt' creado con: ['ab56', 'ay93', 'ap97']\n",
+      "Archivo 'accs_otros.txt' creado con: ['bh84', 'hv76', 'bd72']\n"
+     ]
+    }
+   ],
+   "source": [
+    "# Generamos una lista al que la asociamos a una variable a la que la llamamos \"accs\", esta lista tiene 6 strings.\n",
+    "accs = ['ab56', 'bh84', 'hv76', 'ay93', 'ap97', 'bd72']\n",
+    "\n",
+    "# Para separar cada elemento de la lista.\n",
+    "#Acc for acc para iterar sobrea cada string, una por una.\n",
+    "#if acc.startswith('a') lo utilizamos para ver que strings empiezan por la letra a.\n",
+    "#La variable accs_a guarda todas las strings que comienzan por la letra a.\n",
+    "#La variable accs_otros guarda las strings que no comienzan por la a.\n",
+    "accs_a = [acc for acc in accs if acc.startswith('a')]\n",
+    "accs_otros = [acc for acc in accs if not acc.startswith('a')]\n",
+    "\n",
+    "# Guardar en archivos de texto los resultados.\n",
+    "# with open('accs_a.txt', 'w') as f_a: sirve para abrir un archivo llamado accs_a.txt en modo escritura con la w.\n",
+    "with open('accs_a.txt', 'w') as f_a:\n",
+    "#Itirar sobre cada elemento\n",
+    "    for acc in accs_a:\n",
+    "#Escribe en el archivo abierto y añadimos un salto de línea entre las strings con \\n\n",
+    "        f_a.write(acc + '\\n')\n",
+    "#Hacemos lo mismo que arriba pero ahora para las strings que no empiezan por a.\n",
+    "with open('accs_otros.txt', 'w') as f_otros:\n",
+    "    for acc in accs_otros:\n",
+    "        f_otros.write(acc + '\\n')\n",
+    "\n",
+    "# Para que nos devuelva los resultados\n",
+    "print(\"Archivo 'accs_a.txt' creado con:\", accs_a)\n",
+    "print(\"Archivo 'accs_otros.txt' creado con:\", accs_otros)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "9cbb4adf",
+   "metadata": {},
+   "source": [
+    "##### 3.- Imprime solamente los accessions de la lista anterior que empiecen por 'a' y no acaben con '6'. Pista: usa endswith() y startswidth()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "id": "b32ca419",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "ay93\n",
+      "ap97\n"
+     ]
+    }
+   ],
+   "source": [
+    "accs = ['ab56', 'bh84', 'hv76', 'ay93', 'ap97', 'bd72']\n",
+    "\n",
+    "#aquí pone la primera vuelta que es acc = 'ab56' , la segunda y las demás respectivamente. \n",
+    "\n",
+    "for acc in accs: \n",
+    "    if acc.startswith('a') and not acc.endswith('6'): #esta línea es una condición que selecciona solo los elementos que cumplen dos reglas al mismo tiempo. \n",
+    "        print(acc) #si la condición se cumple, imprime el valor de acc en la consola."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "42c397b0",
+   "metadata": {},
+   "source": [
+    "##### 4.- Escribe una función que cuente el porcentaje de A de una secuencia"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "id": "da633510",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "#def indica que vas crear una función\n",
+    "#Porcentaje_A es el nombre de la función a la que vamos a introducir la secuencia\n",
+    "def porcentaje_A(secuencia_ejemplo):\n",
+    "# Para devolver el número de elementos de la secuencia\n",
+    "    total = len(secuencia_ejemplo)\n",
+    "    #Cuenta cuantas veces aparece la A en la secuencia y este valor se guarda en num_A\n",
+    "    num_A = secuencia_ejemplo.count('A')\n",
+    "    #Divide el número total de A entre el valor total y lo multiplicamos por 100 para generar un porcentaje.\n",
+    "    return (num_A / total) * 100\n",
+    "    #Ponemos return hace que la función devuelva ese valor para que el porcentaje se pueda usar en otra parte del programa."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "id": "c0ccc38f-e0c3-4619-97ec-df5da3cfb41d",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "50.0\n"
+     ]
+    }
+   ],
+   "source": [
+    "#Ejemplo\n",
+    "secuencia_ejemplo=(\"ATCGAA\")\n",
+    "print(porcentaje_A(secuencia_ejemplo))"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "054b8f51",
+   "metadata": {},
+   "source": [
+    "##### ¿Puedes hacer que devuelva dos decimales? ¿Y que lidie con mayúsculas y minúsculas?"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 8,
+   "id": "dc1d5907",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Porcentaje de 'A': 50.00%\n"
+     ]
+    }
+   ],
+   "source": [
+    "#Para que nos devuelva el porcentaje con dos decimales.\n",
+    "def porcentaje_A(secuencia_ejemplo):\n",
+    "    total = len(secuencia_ejemplo)\n",
+    "    if total == 0:  # evitar división entre cero\n",
+    "        return \"0.00\"\n",
+    "    # Cuenta cuántas veces aparece la 'A' en la secuencia\n",
+    "    num_A = secuencia_ejemplo.count('A')\n",
+    "    # Calcula el porcentaje\n",
+    "    porcentaje = (num_A / total) * 100\n",
+    "    # Devuelve siempre con 2 decimales como string\n",
+    "    #Insertar el valor del porcentaje en la plantilla\n",
+    "    #Return devuelve la cadena resusltante desde la función.\n",
+    "    return \"{:.2f}\".format(porcentaje)\n",
+    "\n",
+    "# Ejemplo de uso\n",
+    "secuencia_ejemplo = \"AGCTAGAA\"\n",
+    "#Para poder visualizar el ejemplo\n",
+    "#f es para que evalue la expresión que hay dentro de las llaves y remplace por su valor.\n",
+    "#lo morado es la cadena de texto que queremos que se muestre y dentro tiene una expresión entre llaves que contiene nuestro ejemplo.\n",
+    "print(f\"Porcentaje de 'A': {porcentaje_A(secuencia_ejemplo)}%\")\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "id": "a6f560da-ab90-4968-8ffd-68ea297fa996",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Porcentaje de 'A': 60.00%\n"
+     ]
+    }
+   ],
+   "source": [
+    "#Creamos una función para lidiar con mayúsculas y minúsculas y que el resultado sea correcto.\n",
+    "#Definimos una función a la que le asignamos el nombre deporcentaje_A y entre paréntesis irá nuestra secuencia que vamos a utilizar como ejemplo.\n",
+    "# :,indica el comienzo del bloque\n",
+    "def porcentaje_A(secuencia):\n",
+    "    # Convertimos toda la secuencia a mayúsculas con upper\n",
+    "    secuencia = secuencia.upper()\n",
+    "\n",
+    "    # Contamos las 'A' sin preocuparnos por mayúsculas/ minúsculas, ya que hemos devuelto una nueva cadena donde hemos convertido todas las letras anteriormente a mayúsculas.\n",
+    "    cantidad_A = secuencia.count('A')\n",
+    "\n",
+    "    # Calculamos el porcentaje al dividir la cantidad de letras A que se han encontrado y el número total de elementos que hay en nuestra secuenca, lo hacemos con la función len. Después lo múltiplicamos por 100 para que nos de el porcentaje. \n",
+    "    porcentaje = (cantidad_A / len(secuencia)) * 100\n",
+    "\n",
+    "    # Devuelve siempre con 2 decimales como string\n",
+    "    #Insertar el valor del porcentaje en la plantilla\n",
+    "    #Return devuelve la cadena resusltante desde la función.\n",
+    "    return \"{:.2f}\".format(porcentaje)\n",
+    "\n",
+    "# Ejemplo\n",
+    "secuencia_ejemplo = \"AgcTaAaGctAAaAa\"\n",
+    "print(f\"Porcentaje de 'A': {porcentaje_A(secuencia_ejemplo)}%\")\n",
+    "\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "36a03b5f",
+   "metadata": {},
+   "source": [
+    "##### ¿Y que devuelva el número de decimales que yo quiero?"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "id": "1ac51951",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "def porcentaje_A(secuencia, decimales=2):\n",
+    "    # Queremos que no importe si la secuencia tiene minúsculas o mayúsculas; para que'a' y 'A' se traten igual.\n",
+    "    #.upper convierte todas las letras de la secuencia en mayúsculas para que no haya problemas.\n",
+    "    secuencia = secuencia.upper()\n",
+    "    # Evitamos errores si la secuencia está vacía\n",
+    "    #Si la longitud de la cadena es 0,devuelveme 0.0\n",
+    "    if len(secuencia) == 0:\n",
+    "        return 0.0\n",
+    "    \n",
+    "    #Count. para contar cuántas 'A' hay\n",
+    "    num_A = secuencia.count('A')\n",
+    "    #Nos da la longitud de la cadena\n",
+    "    total = len(secuencia)\n",
+    "    \n",
+    "    # Calculamos el porcentaje\n",
+    "    porcentaje = (num_A / total) * 100\n",
+    "\n",
+    "    # Devolvemos el número con el formato de decimales.\n",
+    "    #Con round, Redondeamos el número asociado al porcentaje a decimales.\n",
+    "    return round(porcentaje, decimales)\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 6,
+   "id": "a3e76bf1-a5d3-4486-8e4e-c06d41eebc73",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "45.0\n",
+      "45.455\n",
+      "45.45\n"
+     ]
+    }
+   ],
+   "source": [
+    "secuencia_ejemplo = \"cAgtAaaaCtg\"\n",
+    "#Redondea los decimales a 0\n",
+    "print(porcentaje_A(secuencia_ejemplo, 0))  \n",
+    "#Redondea los decimales a 3\n",
+    "print(porcentaje_A(secuencia_ejemplo, 3))\n",
+    "#Redondea los decimales a 2\n",
+    "print(porcentaje_A(secuencia_ejemplo, 2))  \n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "2c811d84",
+   "metadata": {},
+   "source": [
+    "##### ¿Sabes poner un valor por defecto en un argumento?"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "60981086",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "markdown",
+   "id": "ab2c106c",
+   "metadata": {},
+   "source": [
+    "##### ¿Qué pasa si no ponemos un argumento? ¿Sabrías hacer una función encapsulada?"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "b155dc1e",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "markdown",
+   "id": "83af4b0f",
+   "metadata": {},
+   "source": [
+    "##### Testea tu función original con assert"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "2bf31b44",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "markdown",
+   "id": "991abaa2",
+   "metadata": {},
+   "source": [
+    "#### 5.- De la lista de accessions que se proporciona obtén lo siguiente:\n",
+    "1. Los que tengan el número 5\n",
+    "2. Los que tengan la letra 'd' o la 'e'\n",
+    "3. Los que tengan las letras 'd' y 'e' en ese orden\n",
+    "4. Los que tengan las letras 'd' y 'e' en ese orden con una letra cualquiera en medio\n",
+    "5. Los que tengan ambas letras 'd' y 'e' en cualquier orden\n",
+    "6. Los que empiezan por 'x' o por 'y'\n",
+    "7. Los que empiezan por 'x' o 'y' y terminan por 'e'\n",
+    "8. Los que tienen tres o más dígitos seguidos\n",
+    "9. Los que terminan con 'd' seguidos de 'a' o 'r' o 'p'"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 26,
+   "id": "6388ac75",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "#1.Los que tengan el número 5"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 26,
+   "id": "2a8626a1-0673-42a5-9a56-db5dbdd5540b",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "import re"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 11,
+   "id": "b067dea7-3473-4478-b722-e9b241b8ef3d",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "accs = ['xkn59438', 'yhdck2', 'eihd39d9', 'chdsye847', 'hedle3455', 'xjhd53e', '45da', 'de37dp']"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 6,
+   "id": "e38da64c-3c76-4016-a5ed-4098579fa985",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "['ab56']\n"
+     ]
+    }
+   ],
+   "source": [
+    "#En este bloque de código se asume que ya existe una lista llamada 'accs' \n",
+    "#que contiene varios identificadores o códigos (accessions). \n",
+    "#Usamos una comprensión de lista (list comprehension) para recorrer cada elemento \n",
+    "#y verificar si el carácter '5' aparece dentro del texto. \n",
+    "#Todos los elementos que cumplen esa condición se guardan en una nueva lista llamada 'accs_con_5'. \n",
+    "#Por último, mostramos esa lista para ver únicamente los códigos que contienen el número 5.#\n",
+    "\n",
+    "# Filtrar los que contienen el número 5\n",
+    "accs_con_5 = [a for a in accs if '5' in a]\n",
+    "\n",
+    "# Mostrar resultado\n",
+    "print(accs_con_5)\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 7,
+   "id": "948fee41-0535-4a3a-9029-3fe738594d28",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "#2.Los que tengan la letra 'd' o la 'e'"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 12,
+   "id": "5bf63a81-8f70-4767-aca5-d4d23d703d99",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "['yhdck2', 'eihd39d9', 'chdsye847', 'hedle3455', 'xjhd53e', '45da', 'de37dp']\n"
+     ]
+    }
+   ],
+   "source": [
+    "\n",
+    "#En este bloque de código se utiliza la lista 'accs' proporcionada, que contiene varios identificadores de ejemplo. El objetivo es obtener únicamente aquellos elementos que incluyan la letra 'd' o la letra 'e' (pueden tener una o ambas). \n",
+    "#Para ello, se recorre cada elemento de la lista y se verifica, mediante una comprensión de lista, si contiene 'd' o 'e' usando el operador lógico 'or'. \n",
+    "#Los que cumplan esta condición se guardan en una nueva lista llamada 'accs_con_d_o_e', que finalmente se muestra en pantalla\n",
+    "\n",
+    "accs = ['xkn59438', 'yhdck2', 'eihd39d9', 'chdsye847', 'hedle3455', 'xjhd53e', '45da', 'de37dp']\n",
+    "\n",
+    "# Filtrar los que contienen la letra 'd' o la 'e'\n",
+    "accs_con_d_o_e = [a for a in accs if 'd' in a or 'e' in a]\n",
+    "\n",
+    "# Mostrar resultado\n",
+    "print(accs_con_d_o_e)\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "d1800e70-81a0-4d03-add1-58f295193085",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3 (ipykernel)",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.13.5"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 5
+}
