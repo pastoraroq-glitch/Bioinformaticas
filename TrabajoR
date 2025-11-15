@@ -1,0 +1,96 @@
+#-------------------------------------------------------------
+# PastoraRoque_Trabajo2.R
+# Trabajo final Bioinformática - Curso 25/26
+# Análisis de parámetros biomédicos por tratamiento
+#-------------------------------------------------------------
+
+# PASO 1: Instalar y cargar librerías necesarias (solo la primera vez)
+install.packages("ggplot2")
+install.packages("dplyr")
+
+library(ggplot2)
+library(dplyr)
+
+# PASO 2: Establecer directorio correcto (¡ojo! esta es la ruta exacta donde está tu archivo)
+setwd("C:/Users/pasto/OneDrive/Documentos/Bioinformatica/R/PastoraRoque_Trabajo2.R")
+
+# Verifica que estés en la carpeta correcta
+getwd()
+list.files()
+
+# PASO 3: Leer el archivo CSV
+datos <- read.csv("datos_biomed.csv")
+
+# PASO 4: Exploración inicial
+head(datos)
+summary(datos)
+dim(datos)
+str(datos)
+
+# ¿Cuántas variables (columnas)?
+cat("Variables:", length(colnames(datos)), "\n")
+
+# ¿Cuántos tratamientos distintos?
+cat("Tratamientos distintos:", length(unique(datos$Tratamiento)), "\n")
+
+# PASO 5: Boxplots por tratamiento (glucosa)
+boxplot(Glucosa ~ Tratamiento, data = datos,
+        col = c("lightblue", "lightgreen", "lightcoral"),
+        main = "Boxplot de Glucosa por Tratamiento",
+        ylab = "Glucosa")
+
+# PASO 6: Violin plot
+ggplot(datos, aes(x = Tratamiento, y = Glucosa, fill = Tratamiento)) +
+  geom_violin(trim = FALSE) +
+  geom_boxplot(width = 0.1, fill = "white") +
+  theme_minimal() +
+  ggtitle("Violin plot de Glucosa por Tratamiento")
+
+# PASO 7: Gráfico de dispersión Glucosa vs Presión con leyenda
+plot(datos$Glucosa, datos$Presion,
+     col = as.factor(datos$Tratamiento), pch = 19,
+     xlab = "Glucosa", ylab = "Presión",
+     main = "Glucosa vs Presión")
+
+legend("bottomright",
+       legend = levels(as.factor(datos$Tratamiento)),
+       col = 1:length(unique(datos$Tratamiento)),
+       pch = 19)
+
+# PASO 8: Facet Grid: Colesterol vs Presión por tratamiento
+ggplot(datos, aes(x = Colesterol, y = Presion)) +
+  geom_point() +
+  facet_wrap(~ Tratamiento) +
+  theme_minimal() +
+  ggtitle("Colesterol vs Presión por Tratamiento")
+
+# PASO 9: Histogramas de cada variable
+hist(datos$Glucosa, col = "skyblue", main = "Histograma de Glucosa", xlab = "Glucosa")
+hist(datos$Presion, col = "lightgreen", main = "Histograma de Presión", xlab = "Presión")
+hist(datos$Colesterol, col = "lightcoral", main = "Histograma de Colesterol", xlab = "Colesterol")
+
+# PASO 10: Convertir Tratamiento en factor
+datos$Tratamiento <- factor(datos$Tratamiento)
+
+# PASO 11: Media y desviación estándar de glucosa por tratamiento
+cat("Media de glucosa:\n")
+print(aggregate(Glucosa ~ Tratamiento, data = datos, mean))
+cat("Desviación estándar de glucosa:\n")
+print(aggregate(Glucosa ~ Tratamiento, data = datos, sd))
+
+# PASO 12: Separar datos por tratamiento
+placebo  <- subset(datos, Tratamiento == "Placebo")
+farmacoA <- subset(datos, Tratamiento == "FarmacoA")
+farmacoB <- subset(datos, Tratamiento == "FarmacoB")
+
+# PASO 13: Evaluar normalidad (Shapiro-Wilk)
+shapiro.test(placebo$Glucosa)
+shapiro.test(farmacoA$Glucosa)
+shapiro.test(farmacoB$Glucosa)
+
+# PASO 14: Comparativa de medias (si no normal → Kruskal-Wallis)
+kruskal.test(Glucosa ~ Tratamiento, data = datos)
+
+# PASO 15: ANOVA sobre glucosa (si normalidad OK)
+anova_result <- aov(Glucosa ~ Tratamiento, data = datos)
+summary(anova_result)
